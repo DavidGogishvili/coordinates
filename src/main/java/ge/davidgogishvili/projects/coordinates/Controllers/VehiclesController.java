@@ -2,8 +2,9 @@ package ge.davidgogishvili.projects.coordinates.Controllers;
 
 import ge.davidgogishvili.projects.coordinates.Entities.Vehicles;
 import ge.davidgogishvili.projects.coordinates.Models.VehicleCreateModel;
-import ge.davidgogishvili.projects.coordinates.Services.VehicleLocationAndHistoryService;
+import ge.davidgogishvili.projects.coordinates.Services.VehicleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,17 +13,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/vehicles")
 public class VehiclesController {
-    private final VehicleLocationAndHistoryService vehiclesService;
+    private final VehicleService vehiclesService;
 
     @GetMapping("/vehicleSearch")
-    public List <Vehicles> search (String number, String driver, String vehicleType,
-                                   Double length, Double width, Double height, String capacity) {
-        return vehiclesService.search (number, driver, vehicleType, length, width, height, capacity);
+    public List <Vehicles> search (String carNumber, String driver, String vehicleType,
+                                   Double length, Double width, Double height, String capacity, Boolean status) {
+        return vehiclesService.search (carNumber, driver, vehicleType, length, width, height, capacity, status);
     }
 
 
-    @PostMapping("addVehicles/{id}")
-    public Vehicles createVehicles(@PathVariable Integer id, @RequestBody VehicleCreateModel vehicleCreateModel){
-        return vehiclesService.createVehicles(id, vehicleCreateModel);
+    @PostMapping("addVehicles")
+    public ResponseEntity<Vehicles> createVehicle(@RequestBody Vehicles vehicles) {
+         vehiclesService.createVehicles(vehicles);
+         return ResponseEntity.ok(vehicles);
     }
 }

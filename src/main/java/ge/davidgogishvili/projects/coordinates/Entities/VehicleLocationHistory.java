@@ -26,12 +26,12 @@ public class VehicleLocationHistory {
     @Column(name = "car_number")
     private String carNumber;
 
-    public VehicleLocationHistory(LocalDateTime lastContactDate, Double longitude, Double latitude, String carNumber) {
-        this.lastContactDate = lastContactDate;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.carNumber = carNumber;
-    }
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Vehicles vehicles;
+
+    @Column (name = "vehicle_id")
+    private Integer vehicleId;
 
     public VehicleLocationHistory() {
     }

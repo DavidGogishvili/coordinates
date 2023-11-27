@@ -3,6 +3,9 @@ package ge.davidgogishvili.projects.coordinates.Entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
+
 @Data
 @Entity
 public class Vehicles {
@@ -32,4 +35,10 @@ public class Vehicles {
 
     @Column (name = "load_capacity")
     private String capacity;
+
+    @Column (name = "status")
+    private Boolean status;
+
+    @OneToMany(mappedBy = "vehicles", cascade = CascadeType.ALL)
+    private List<VehicleLocations> vehicleLocations;
 }

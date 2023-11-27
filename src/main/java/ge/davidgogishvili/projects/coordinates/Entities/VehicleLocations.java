@@ -1,5 +1,6 @@
 package ge.davidgogishvili.projects.coordinates.Entities;
 
+import ge.davidgogishvili.projects.coordinates.Repositories.VehiclesRepo;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,31 +8,28 @@ import lombok.Data;
 @Entity
 public class VehicleLocations {
 
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="vehicle_locations_seq-generator")
-    @SequenceGenerator(name="vehicle_locations_seq-generator", sequenceName="vehicle_locations_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vehicle_locations_seq-generator")
+    @SequenceGenerator(name = "vehicle_locations_seq-generator", sequenceName = "vehicle_locations_id_seq", allocationSize = 1)
     @Id
     private Integer id;
 
-
-    @Column (name = "longitude")
+    @Column(name = "longitude")
     private Double longitude;
 
-    @Column (name = "latitude")
+    @Column(name = "latitude")
     private Double latitude;
 
-    @Column (name = "car_number")
-    private String  carNumber;
+    @Column(name = "car_number")
+    private String carNumber;
 
-    public VehicleLocations(String carNumber, Double longitude, Double latitude) {
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Vehicles vehicles;
 
-        this.carNumber = carNumber;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+    @Column (name = "vehicle_id")
+    private Integer vehicleId;
 
     public VehicleLocations() {
-
     }
-
 
 }

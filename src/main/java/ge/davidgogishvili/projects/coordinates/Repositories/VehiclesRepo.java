@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface VehiclesRepo extends JpaRepository <Vehicles, Integer> {
-    Optional<Vehicles> findByCarNumber(String carNumber);
 
 }

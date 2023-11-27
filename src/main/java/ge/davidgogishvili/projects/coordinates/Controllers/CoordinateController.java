@@ -1,9 +1,7 @@
 package ge.davidgogishvili.projects.coordinates.Controllers;
 import ge.davidgogishvili.projects.coordinates.Entities.VehicleLocations;
-import ge.davidgogishvili.projects.coordinates.Models.LocationRequestModel;
 import ge.davidgogishvili.projects.coordinates.Repositories.VehicleLocationsRepo;
 import ge.davidgogishvili.projects.coordinates.Services.CoordinateService;
-import ge.davidgogishvili.projects.coordinates.Services.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +16,13 @@ public class CoordinateController {
 
     private final CoordinateService coordinateService;
     private final VehicleLocationsRepo vehicleLocationsRepo;
-    private final LocationService locationService;
 
     @Autowired
     public CoordinateController(
             CoordinateService coordinateService,
-            VehicleLocationsRepo vehicleLocationsRepo,
-            LocationService locationService) {
+            VehicleLocationsRepo vehicleLocationsRepo) {
         this.coordinateService = coordinateService;
         this.vehicleLocationsRepo = vehicleLocationsRepo;
-        this.locationService = locationService;
     }
 
     @PostMapping("/UploadEcxelFileAndRecieveCoordinates")
@@ -42,7 +37,7 @@ public class CoordinateController {
         if (coordinates.size() >= 2) {
             VehicleLocations firstCoordinate = coordinates.get(0);
             VehicleLocations secondCoordinate = coordinates.get(1);
-            return distance(
+            return  distance(
                     firstCoordinate.getLatitude(),
                     secondCoordinate.getLatitude(),
                     firstCoordinate.getLongitude(),
@@ -50,12 +45,6 @@ public class CoordinateController {
         } else {
             return 0.0;
         }
-    }
-
-    @PostMapping("/RecieveAndStoreCoordinatesRemotely")
-    public String storeLocation(@RequestBody LocationRequestModel request) {
-        locationService.storeLocation(request);
-        return "ეგარი!";
     }
 
     private double distance(double lat1, double lat2, double lon1, double lon2) {

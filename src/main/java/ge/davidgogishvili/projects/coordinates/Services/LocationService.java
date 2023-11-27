@@ -1,35 +1,15 @@
+
+
 package ge.davidgogishvili.projects.coordinates.Services;
 
 import ge.davidgogishvili.projects.coordinates.Entities.VehicleLocationHistory;
 import ge.davidgogishvili.projects.coordinates.Entities.VehicleLocations;
-import ge.davidgogishvili.projects.coordinates.Models.LocationRequestModel;
-import ge.davidgogishvili.projects.coordinates.Repositories.VehicleLocationHistoryRepo;
-import ge.davidgogishvili.projects.coordinates.Repositories.VehicleLocationsRepo;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Service;
+import ge.davidgogishvili.projects.coordinates.Models.VehicleLocationsCreateModel;
+import ge.davidgogishvili.projects.coordinates.Models.VehicleLocationsHistoryCreateModel;
 
-import java.time.LocalDateTime;
+public interface LocationService {
 
-@Service
-@Setter
-@AllArgsConstructor
-public class LocationService {
+    VehicleLocations createVehicleLocations(VehicleLocationsCreateModel vehicleLocationsCreateModel);
 
-
-    private final VehicleLocationsRepo vehicleLocationsRepo;
-    private final VehicleLocationHistoryRepo vehicleLocationHistoryRepo;
-
-
-    public void storeLocation(LocationRequestModel request) {
-
-        VehicleLocations vehiclelocations = new VehicleLocations(request.getCarNumber(),
-                request.getLongitude(), request.getLatitude());
-        VehicleLocationHistory vehicleLocationHistory = new VehicleLocationHistory(request.getLastContactDate(LocalDateTime.now()),
-                request.getLongitude(), request.getLatitude(), request.getCarNumber());
-
-        vehicleLocationsRepo.save(vehiclelocations);
-        vehicleLocationHistoryRepo.save(vehicleLocationHistory);
-
-    }
+    VehicleLocationHistory createVehicleLocationsHistory(VehicleLocationsHistoryCreateModel vehicleLocationsHistoryCreateModel);
 }
